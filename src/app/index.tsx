@@ -1,3 +1,4 @@
+import PanelEquipo from '@/components/PanelEquipo';
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -22,39 +23,19 @@ export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.scoreboard}>
-                <View style={styles.team}>
-                    <Text>Local</Text>
-                    <Text>{local}</Text>
+                <PanelEquipo
+                    nombre="Local"
+                    puntos={local}
+                    color="#2563eb"
+                    onAnotar={(puntos) => anotar('local', puntos)}
+                />
 
-                    <TouchableOpacity onPress={() => anotar('local', 1)}>
-                        <Text>+1</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => anotar('local', 2)}>
-                        <Text>+2</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => anotar('local', 3)}>
-                        <Text>+3</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.team}>
-                    <Text>Visitante</Text>
-                    <Text>{visitante}</Text>
-
-                    <TouchableOpacity onPress={() => anotar('visitante', 1)}>
-                        <Text>+1</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => anotar('visitante', 2)}>
-                        <Text>+2</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => anotar('visitante', 3)}>
-                        <Text>+3</Text>
-                    </TouchableOpacity>
-                </View>
+                <PanelEquipo
+                    nombre="Visitante"
+                    puntos={visitante}
+                    color="#dc2626"
+                    onAnotar={(puntos) => anotar('visitante', puntos)}
+                />
             </View>
             <TouchableOpacity onPress={reiniciar}>
                 <Text>Reiniciar</Text>
@@ -73,8 +54,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
-    team: {
-        alignItems: 'center',
-        padding: 20,
-    },
 });
