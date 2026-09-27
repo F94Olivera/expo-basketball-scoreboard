@@ -1,98 +1,80 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+type Equipo = 'local' | 'visitante';
 
 export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    const [local, setLocal] = useState(0);
+    const [visitante, setVisitante] = useState(0);
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+    const anotar = (equipo: Equipo, puntos: number) => {
+        if (equipo === 'local') {
+            setLocal((prev) => prev + puntos);
+        } else {
+            setVisitante((prev) => prev + puntos);
+        }
+    };
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+    const reiniciar = () => {
+        setLocal(0);
+        setVisitante(0);
+    };
+    return (
+        <View style={styles.container}>
+            <View style={styles.scoreboard}>
+                <View style={styles.team}>
+                    <Text>Local</Text>
+                    <Text>{local}</Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
+                    <TouchableOpacity onPress={() => anotar('local', 1)}>
+                        <Text>+1</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => anotar('local', 2)}>
+                        <Text>+2</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => anotar('local', 3)}>
+                        <Text>+3</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.team}>
+                    <Text>Visitante</Text>
+                    <Text>{visitante}</Text>
+
+                    <TouchableOpacity onPress={() => anotar('visitante', 1)}>
+                        <Text>+1</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => anotar('visitante', 2)}>
+                        <Text>+2</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => anotar('visitante', 3)}>
+                        <Text>+3</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <TouchableOpacity onPress={reiniciar}>
+                <Text>Reiniciar</Text>
+            </TouchableOpacity>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    scoreboard: {
+        flexDirection: 'row',
+    },
+
+    team: {
+        alignItems: 'center',
+        padding: 20,
+    },
 });
