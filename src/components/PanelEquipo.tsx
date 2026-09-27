@@ -6,6 +6,7 @@ type PanelEquipoProps = {
     nombre: string;
     puntos: number;
     color: string;
+    ganando: boolean;
     onAnotar: (puntos: number) => void;
 };
 
@@ -13,10 +14,19 @@ export default function PanelEquipo({
     nombre,
     puntos,
     color,
+    ganando,
     onAnotar,
 }: PanelEquipoProps) {
     return (
-        <View style={styles.team}>
+        <View
+            style={[
+                styles.team,
+                ganando && {
+                    borderWidth: 3,
+                    borderColor: color,
+                },
+            ]}
+        >
             <Text style={styles.nombre}>{nombre}</Text>
             <Text style={[styles.puntos, { color }]}>{puntos}</Text>
 
