@@ -27,6 +27,14 @@ El proyecto fue desarrollado de forma incremental. Cada ejercicio se encuentra d
 - `feature/ejercicio3`
 - `feature/ejercicio4`
 
+## Archivos principales HIPERIMPORTANTE
+
+La solución se encuentra principalmente en los siguientes archivos:
+
+- `src/app/index.tsx`
+- `src/components/PanelEquipo.tsx`
+- `src/components/BotonAccion.tsx`
+
 # respuestas ej 2
 
 1) El estado vive en el padre porque index.tsx necesita conocer y manejar los puntos de ambos equipos. Los PanelEquipo reciben los puntos y las funciones necesarias mediante props, manteniendo una única fuente de verdad.
