@@ -1,31 +1,49 @@
-# Welcome to your Expo app 👋
+# Expo Basketball Scoreboard
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación de marcador de básquet desarrollada con React Native y Expo.
 
-## Get started
+Permite registrar los puntos de dos equipos, visualizar el resultado actual, reiniciar el partido y deshacer jugadas.
 
-1. Install dependencies
+## Instalación
 
-   ```bash
-   npm install
-   ```
+Instalar las dependencias:
 
-2. Start the app
+```bash
+npm install
+```
 
-   ```bash
-   npx expo start
-   ```
+Iniciar la aplicación:
 
-In the output, you'll find options to open the app in a
+```bash
+npx expo start
+```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Ejercicios
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+El proyecto fue desarrollado de forma incremental. Cada ejercicio se encuentra disponible en su respectiva rama:
+
+- `feature/ejercicio1`
+- `feature/ejercicio2`
+- `feature/ejercicio3`
+- `feature/ejercicio4`
 
 # respuestas ej 2
 
 1) El estado vive en el padre porque index.tsx necesita conocer y manejar los puntos de ambos equipos. Los PanelEquipo reciben los puntos y las funciones necesarias mediante props, manteniendo una única fuente de verdad.
-2) A cada botón le paso onPress={() => onAnotar(2)}, cambiando el valor según los puntos que tenga anotar. No alcanza con onPress={onAnotar} porque tengo que indicarle cuántos puntos tiene que sumar cada botón. Tampoco puedo usar onPress={onAnotar(2)}, porque eso ejecuta la función durante el render en vez de hacerlo al tocar el botón.
+2) A cada botón se le pasa, por ejemplo:
+
+```tsx
+onPress={() => onAnotar(2)}
+```
+
+El valor cambia según los puntos que corresponda anotar.
+
+No alcanza con `onPress={onAnotar}` porque necesitamos indicar cuántos puntos debe sumar cada botón.
+
+Tampoco debemos usar:
+
+```tsx
+onPress={onAnotar(2)}
+```
+
+porque eso ejecutaría la función durante el render en lugar de hacerlo al presionar el botón.
