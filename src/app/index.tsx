@@ -5,9 +5,15 @@ import { StyleSheet, Text, View } from 'react-native';
 
 type Equipo = 'local' | 'visitante';
 
+type Jugada = {
+    equipo: Equipo;
+    puntos: number;
+};
+
 export default function HomeScreen() {
     const [local, setLocal] = useState(0);
     const [visitante, setVisitante] = useState(0);
+    const [jugadas, setJugadas] = useState<Jugada[]>([]);
 
     const anotar = (equipo: Equipo, puntos: number) => {
         if (equipo === 'local') {
@@ -15,11 +21,29 @@ export default function HomeScreen() {
         } else {
             setVisitante((prev) => prev + puntos);
         }
+        setJugadas((prev) => [...prev, { equipo, puntos }]);
     };
 
     const reiniciar = () => {
         setLocal(0);
         setVisitante(0);
+        setJugadas([]);
+    };
+
+    const deshacer = () => {
+        const ultimaJugada = jugadas[jugadas.length - 1];
+
+        if (!ultimaJugada) {
+            return;
+        }
+
+        if (ultimaJugada.equipo === 'local') {
+            setLocal((prev) => prev - ultimaJugada.puntos);
+        } else {
+            setVisitante((prev) => prev - ultimaJugada.puntos);
+        }
+
+        setJugadas((prev) => prev.slice(0, -1));
     };
 
     const diferencia = Math.abs(local - visitante);
@@ -33,6 +57,7 @@ export default function HomeScreen() {
     } else {
         resultado = 'Empate';
     }
+    const ultimasJugadas = jugadas.slice(-5).reverse();
     return (
         <View style={styles.container}>
             <View style={styles.scoreboard}>
@@ -59,6 +84,19 @@ export default function HomeScreen() {
                 onPress={reiniciar}
                 disabled={local === 0 && visitante === 0}
             />
+            <BotonAccion
+                texto="Deshacer"
+                color="#6b7280"
+                onPress={deshacer}
+                disabled={jugadas.length === 0}
+            />
+            <View>
+                {ultimasJugadas.map((jugada, index) => (
+                    <Text key={index}>
+                        {jugada.equipo === 'local' ? 'Local' : 'Visitante'} +{jugada.puntos}
+                    </Text>
+                ))}
+            </View>
         </View>
     );
 }
